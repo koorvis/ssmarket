@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" href="topbar.css">
+		<title> SS Market </title>
+		<link rel="icon" type="image/png" href="logo1.png" />
+<style> 
+.flex-container {
+    display: flex;
+    background-color: lightgrey;
+	justify-content:space-around
+}
+
+.flex-item {
+	border-color: #ff0000;
+    background-color: cornflowerblue;
+	flex-basis: 40%;
+	}
+.vertical-menu {
+    width: 100%;
+	hight: 100%;
+}
+
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+<script>
+    var dataArray = [];
+    function ritaGraf() {
+        //Ta storleken på boxen
+        var element = document.getElementById('grafRuta');
+		var positionInfo = element.getBoundingClientRect();
+		var height = positionInfo.height;
+		var width = positionInfo.width;
+		//Gör variaber för det som ska ritas
+		var boxSize = {X:width, Y:height};
+		//Sätt målet för ritningen i myCanvas och initialisera ctx
+		var c=document.getElementById("myCanvas");
+		var ctx=c.getContext("2d");
+		ctx.canvas.width  = boxSize.X - 5;
+		ctx.canvas.height = (boxSize.Y -5)/2;
+		//Rita boxen
+		ctx.fillStyle="#fcfcfc";
+		ctx.fillRect(0 ,0 , boxSize.X, boxSize.Y);
+		ctx.strokeStyle="#000000"
+		ctx.lineWidth=2;
+		ctx.strokeRect(0 ,0 , boxSize.X, boxSize.Y);
+		//Rita Rutnät
+		ctx.strokeStyle="#cccccc";
+		ctx.lineWidth=1;
+	    for (var i = 1; i < 10; i++){
+			ctx.beginPath();
+			ctx.moveTo(i*(boxSize.X/10), 0);
+			ctx.lineTo(i*(boxSize.X/10), boxSize.Y);
+			ctx.stroke();
+		}
+	    for (var i = 1; i < 10; i++){
+			ctx.beginPath();
+			ctx.moveTo(0, i*(boxSize.Y/10));
+			ctx.lineTo(boxSize.X, i*(boxSize.Y/10));
+			ctx.stroke();
+		}
+		//Rita grafer
+		ctx.lineWidth=3;		
+        for (var i = 0; i < dataArray.length; i++){
+			ctx.beginPath();
+			ctx.moveTo(0, ((dataArray[i][0])/100)*boxSize.Y);
+			ctx.lineTo(1*(boxSize.X/3), ((dataArray[i][1])/100)*boxSize.Y);
+			ctx.lineTo(2*(boxSize.X/3), ((dataArray[i][2])/100)*boxSize.Y);
+			ctx.lineTo(3*(boxSize.X/3), ((dataArray[i]			[3])/100)*boxSize.Y);
+			ctx.strokeStyle=dataArray[i][4];
+			ctx.stroke();
+		} 
+
+    }
+
+	function getRandomColor() {
+ 		 var letters = '0123456789ABCDEF';
+ 		 var color = '#';
+ 		 for (var i = 0; i < 6; i++) {
+  			  color += letters[Math.floor(Math.random() * 16)];
+ 		 }
+ 		 return color;
+	}
+</script>
+</head>
+<body onresize="ritaGraf()">
+<div class="topnav" id="myTopnav">
+	<a href="#home">
+	<img src="logo1.png"/>
+	</a>
+	<a href="#news">News</a>
+	<a href="#contact">Contact</a>
+	<a href="#about">About</a>
+</div>
+<div class="flex-container">
+  <div class="flex-item" id="listRuta">
+  	<div class="vertical-menu">
+  	 <a href="#" class="active">Item:</a>
+ 	 <a href="#" ><button id="Item1">Item 1</button></a>
+ 	 <a href="#"><button id="Item2">Item 2</button></a>
+ 	 <a href="#">Item 3</a>
+ 	 <a href="#">Item 4</a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 <a href="#"></a>
+	 
+	</div>
+  </div>
+  <div class="flex-item" id="grafRuta">
+  	<canvas id="myCanvas">
+	</canvas>
+	<script>
+		ritaGraf();
+	</script>
+  </div>
+</div>
+<script>
+	//Gör en array med data
+
+
+	document.getElementById("Item1").addEventListener("click", item1Click);
+	document.getElementById("Item2").addEventListener("click", item2Click);
+	function item1Click() {
+		dataArray.push([Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1), getRandomColor()]);
+		ritaGraf();
+	}
+    	
+	function item2Click() {
+		dataArray = [];
+		ritaGraf();
+	}
+</script>
+</body>
+</html>
